@@ -1,4 +1,4 @@
-import {readFile} from 'fs/promises';
+import {readFile,writeFile} from 'fs/promises';
 import { resolve } from 'path';
 
 
@@ -7,10 +7,28 @@ import { resolve } from 'path';
 async function readingHtml(){
     //resolve function is synchronous tha's why dont nedded to use await here
     const path = resolve('./index.html'); 
-    const html = await readFile(path); //we can resolve the function using path variable or directly using resolve function
-    console.log(html.toString());
-}
+    let  html = await readFile(path); //we can resolve the function using path variable or directly using resolve function
 
+
+    const data = {
+        name: 'Mani',
+        college: 'NSEC'
+    }
+
+
+    for(const [key, value]  of Object.entries(data)){
+        html = html.toString().replace(`{{${key}}}`, value);
+    }
+
+
+    await writeFile(resolve('./output.html'), html);
+
+
+
+
+
+}
+    
 readingHtml();
 
 
